@@ -28,7 +28,16 @@ class _MemoEventState extends State<MemoEvent> {
       body: InkWell(
         child: Column(
           children: <Widget>[
-            Padding(padding: EdgeInsets.only(left: 5, top: 10, bottom: 20)),
+            Padding(
+
+                padding: EdgeInsets.only(left: 5, top: 10, bottom: 20),
+                child: Container(
+                    /*
+                  child: Text('메모',
+                      style: TextStyle(fontSize: 36, color: Colors.blue)),
+                  alignment: Alignment.centerLeft,
+                   */
+                    )),
             Expanded(child: memoBuilder(context)),
           ],
         ),
