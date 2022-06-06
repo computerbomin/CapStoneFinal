@@ -48,6 +48,7 @@ class _EditPage extends State<EditPage> {
             color: Colors.white,
             onPressed: () async {
               saveDB();
+              Navigator.pop(context);
             },
           ),
         ],
@@ -161,7 +162,7 @@ class _EditPage extends State<EditPage> {
       Navigator.pop(context);
       Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => MemoMain(),)
+          MaterialPageRoute(builder: (context) => MemoMain())
       );
       print(await sd.memos()); //데이터가 잘 저장됐는지 확인용, 필요는 없음
     }
