@@ -35,12 +35,10 @@ class _MemoEventState extends State<MemoEvent> {
 
     return Scaffold(
       body: InkWell(
-        onDoubleTap: () {
-          setState(() {});
-        },
         child: Column(
           children: <Widget>[
             Padding(
+
                 padding: EdgeInsets.only(left: 5, top: 10, bottom: 20),
                 child: Container(
                     /*

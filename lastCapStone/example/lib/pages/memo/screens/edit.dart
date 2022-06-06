@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 
+import '../../memo_main_page.dart';
 import '../database/db.dart';
 import '../database/memo.dart';
 
@@ -51,8 +52,13 @@ class _EditPage extends State<EditPage> {
           IconButton(
             icon: const Icon(Icons.save),
             color: Colors.white,
-            onPressed: () {
+            onPressed: () async {
               saveDB();
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => (MemoMain())),
+              );
             },
           ),
         ],
@@ -65,50 +71,65 @@ class _EditPage extends State<EditPage> {
         padding: EdgeInsets.all(10),
         child: Column(
           children: <Widget>[
-            TextField(
-              //obscureText: true,
-              onChanged: (String title) {
-                this.title = title;
+            GestureDetector(
+              onTap: (){
+                FocusScope.of(context).unfocus();
               },
-              //제목 입력하거나 바뀌면 title로 넘어간다. 맨 위의 title에 저장됨.
-              keyboardType: TextInputType.multiline,
-              maxLines: 2,
-              style: TextStyle(
-                fontSize: 15,
-              ),
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: '제목',
-                labelStyle: TextStyle(
+              child: TextField(
+                //obscureText: true,
+                onChanged: (String title) {
+                  this.title = title;
+                },
+                //제목 입력하거나 바뀌면 title로 넘어간다. 맨 위의 title에 저장됨.
+                keyboardType: TextInputType.multiline,
+                maxLines: 2,
+                style: TextStyle(
+                  fontSize: 15,
+                ),
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: '제목',
+                  labelStyle: TextStyle(
+                    fontFamily: 'Gamja_Flower',
+                    fontSize: 17,
+                  ),
+                  hintText: '제목을 입력하시오.',
+                  hintStyle: TextStyle(
                   fontFamily: 'Gamja_Flower',
                   fontSize: 17,
                 ),
-                hintText: '제목을 입력하시오.',
-                hintStyle: TextStyle(
-                fontFamily: 'Gamja_Flower',
-                fontSize: 17,
-              ),
+                ),
               ),
             ),
-            Padding(padding: EdgeInsets.all(10)),
-            TextField(
-              //obscureText: true,
-              onChanged: (String text) {
-                this.text = text;
+            GestureDetector(
+                onTap: (){
+                  FocusScope.of(context).unfocus();
+                },
+                child: Padding(padding: EdgeInsets.all(10))
+            ),
+            GestureDetector(
+              onTap: (){
+                FocusScope.of(context).unfocus();
               },
-              keyboardType: TextInputType.multiline,
-              maxLines: 8,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: '내용',
-                labelStyle: TextStyle(
-                  fontFamily: 'Gamja_Flower',
-                  fontSize: 17,
-                ),
-                hintText: '내용을 입력하시오.',
-                hintStyle: TextStyle(
-                  fontFamily: 'Gamja_Flower',
-                  fontSize: 17,
+              child: TextField(
+                //obscureText: true,
+                onChanged: (String text) {
+                  this.text = text;
+                },
+                keyboardType: TextInputType.multiline,
+                maxLines: 8,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: '내용을 입력하시오.',
+                  labelStyle: TextStyle(
+                    fontFamily: 'Gamja_Flower',
+                    fontSize: 17,
+                  ),
+                  hintText: '내용을 입력하시오.',
+                  hintStyle: TextStyle(
+                    fontFamily: 'Gamja_Flower',
+                    fontSize: 17,
+                  ),
                 ),
               ),
             ),

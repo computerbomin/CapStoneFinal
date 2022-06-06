@@ -79,7 +79,7 @@ class _LogInRefacState extends State<LogInRefac> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CircleAvatar(
-                    radius: 200,
+                    radius: 150,
                     backgroundColor: Colors.white,
                     child: Padding(
                       padding: const EdgeInsets.all(5), // Border radius
