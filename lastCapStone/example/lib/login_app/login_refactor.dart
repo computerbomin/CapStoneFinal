@@ -83,7 +83,7 @@ class _LogInRefacState extends State<LogInRefac> {
                     backgroundColor: Colors.white,
                     child: Padding(
                       padding: const EdgeInsets.all(5), // Border radius
-                      child: (ClipOval(child: Image.asset('image/close.png')))),
+                      child: (ClipOval(child: Image.asset('image/login.png')))),
                     ),
                 ],
               ),
