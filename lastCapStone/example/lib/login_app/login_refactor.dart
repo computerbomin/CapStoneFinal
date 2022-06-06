@@ -48,52 +48,54 @@ class _LogInRefacState extends State<LogInRefac> {
 
   // Prvate build options
   Widget _buildButton() {
-    return Padding(
-      padding: EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "GOOSE",
-                style: TextStyle(
-                  fontFamily: 'Gamja_Flower',
-                  fontSize: 70.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-            ]
-          ),
-          SizedBox(
-            height: 30,
-          ),
-
-          InkWell(
-            child: Row(
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CircleAvatar(
-                  radius: 200,
-                  backgroundColor: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.all(5), // Border radius
-                    child: (ClipOval(child: Image.asset('image/close.png')))),
+                Text(
+                  "GOOSE",
+                  style: TextStyle(
+                    fontFamily: 'Gamja_Flower',
+                    fontSize: 70.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
-              ],
+                ),
+              ]
             ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Home()),
-              );
-            },
-          ),
-        ],
+            SizedBox(
+              height: 30,
+            ),
+
+            InkWell(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: 200,
+                    backgroundColor: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.all(5), // Border radius
+                      child: (ClipOval(child: Image.asset('image/close.png')))),
+                    ),
+                ],
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Home()),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
