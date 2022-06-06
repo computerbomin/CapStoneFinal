@@ -50,7 +50,7 @@ class _LogInRefacState extends State<LogInRefac> {
   Widget _buildButton() {
     return SafeArea(
       child: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(20.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -79,7 +79,7 @@ class _LogInRefacState extends State<LogInRefac> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CircleAvatar(
-                    radius: 200,
+                    radius: 150,
                     backgroundColor: Colors.white,
                     child: Padding(
                       padding: const EdgeInsets.all(5), // Border radius

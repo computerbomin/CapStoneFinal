@@ -1,6 +1,8 @@
+import 'package:example/pages/memo_main_page.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../database/db.dart';
 import '../database/memo.dart';
@@ -16,6 +18,7 @@ class EditPage extends StatefulWidget {
 }
 
 class _EditPage extends State<EditPage> {
+// class EditPage extends StatelessWidget {
   String title = '';
   String text = '';
   //List<XFile>? imageFileList;
@@ -29,7 +32,7 @@ class _EditPage extends State<EditPage> {
     if (selectedImages!.isNotEmpty) {
       imageFileList!.addAll(selectedImages);
     }
-    setState(() {});
+    // setState(() {});
   }
 
   @override
@@ -39,20 +42,16 @@ class _EditPage extends State<EditPage> {
       appBar: AppBar(
         backgroundColor: Colors.orangeAccent,
         actions: <Widget>[
-          /*
-          IconButton(
-            icon: const Icon(Icons.camera_alt),
-            color: Colors.white,
-            onPressed: () {
-              selectImages();
-            },
-          ),
-           */
           IconButton(
             icon: const Icon(Icons.save),
             color: Colors.white,
             onPressed: () {
               saveDB();
+              // Navigator.pop(context);
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => MemoMain(),)
+              // );
             },
           ),
         ],
@@ -65,29 +64,36 @@ class _EditPage extends State<EditPage> {
         padding: EdgeInsets.all(10),
         child: Column(
           children: <Widget>[
-            TextField(
-              //obscureText: true,
-              onChanged: (String title) {
-                this.title = title;
+            GestureDetector(
+              onTap:(){
+                FocusScope.of(context).unfocus();
               },
-              //제목 입력하거나 바뀌면 title로 넘어간다. 맨 위의 title에 저장됨.
-              keyboardType: TextInputType.multiline,
-              maxLines: 2,
-              style: TextStyle(
-                fontSize: 15,
-              ),
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: '제목',
-                labelStyle: TextStyle(
-                  fontFamily: 'Gamja_Flower',
-                  fontSize: 17,
+              child: SingleChildScrollView(
+                child: TextField(
+                  //obscureText: true,
+                  onChanged: (String title) {
+                    this.title = title;
+                  },
+                  //제목 입력하거나 바뀌면 title로 넘어간다. 맨 위의 title에 저장됨.
+                  keyboardType: TextInputType.multiline,
+                  maxLines: 2,
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: '제목',
+                    labelStyle: TextStyle(
+                      fontFamily: 'Gamja_Flower',
+                      fontSize: 17,
+                    ),
+                    hintText: '제목을 입력하시오.',
+                    hintStyle: TextStyle(
+                    fontFamily: 'Gamja_Flower',
+                    fontSize: 17,
+                  ),
+                  ),
                 ),
-                hintText: '제목을 입력하시오.',
-                hintStyle: TextStyle(
-                fontFamily: 'Gamja_Flower',
-                fontSize: 17,
-              ),
               ),
             ),
             Padding(padding: EdgeInsets.all(10)),
@@ -133,19 +139,26 @@ class _EditPage extends State<EditPage> {
 
   Future<void> saveDB() async {
     DBHelper sd = DBHelper();
-
-    var fido = Memo(
-      id: Str2Sha256(DateTime.now().toString()), //현재 날짜를 해쉬값으로 만들어서 id로 사용
-      title: this.title,
-      text: this.text,
-      createTime: DateTime.now().toString(),
-      editTime: DateTime.now().toString(),
-      //image: this.imageFileList,
-    );
-
-    await sd.insertMemo(fido);
-
-    print(await sd.memos()); //데이터가 잘 저장됐는지 확인용, 필요는 없음
+    if (this.title.isEmpty == true || this.text.isEmpty == true) {
+      await flutterToast();
+    }
+    else {
+      var fido = Memo(
+        id: Str2Sha256(DateTime.now().toString()),
+        //현재 날짜를 해쉬값으로 만들어서 id로 사용
+        title: this.title,
+        text: this.text,
+        createTime: DateTime.now().toString(),
+        editTime: DateTime.now().toString(),
+      );
+      await sd.insertMemo(fido);
+      Navigator.pop(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MemoMain(),)
+      );
+      print(await sd.memos()); //데이터가 잘 저장됐는지 확인용, 필요는 없음
+    }
   }
 
   String Str2Sha256(String text) {
@@ -156,5 +169,15 @@ class _EditPage extends State<EditPage> {
     var digest = hmacSha256.convert(bytes);
 
     return digest.toString();
+  }
+
+  Future<void> flutterToast() async{
+    await Fluttertoast.showToast(msg: '제목과 내용을 입력 해주세요.',
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.grey,
+      fontSize: 20,
+      textColor: Colors.white,
+      toastLength: Toast.LENGTH_SHORT
+    );
   }
 }

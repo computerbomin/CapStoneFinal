@@ -1,23 +1,14 @@
 import 'dart:ui';
-
 import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart';
-
 import './../screens/edit.dart';
-import './../screens/view.dart';
 import './../database/db.dart';
 import './../database/memo.dart';
-
 import 'package:firebase_auth/firebase_auth.dart' as fauth;
-
 
 //적은 메모 보여주는 페이지
 
@@ -35,20 +26,9 @@ class _MemoEventState extends State<MemoEvent> {
 
     return Scaffold(
       body: InkWell(
-        onDoubleTap: () {
-          setState(() {});
-        },
         child: Column(
           children: <Widget>[
-            Padding(
-                padding: EdgeInsets.only(left: 5, top: 10, bottom: 20),
-                child: Container(
-                    /*
-                  child: Text('메모',
-                      style: TextStyle(fontSize: 36, color: Colors.blue)),
-                  alignment: Alignment.centerLeft,
-                   */
-                    )),
+            Padding(padding: EdgeInsets.only(left: 5, top: 10, bottom: 20)),
             Expanded(child: memoBuilder(context)),
           ],
         ),
@@ -57,9 +37,13 @@ class _MemoEventState extends State<MemoEvent> {
         onPressed: () {
           Navigator.push(
               context, CupertinoPageRoute(builder: (context) => EditPage()));
+          setState(() {});
         },
         tooltip: '메모 추가를 위해 클릭하시오.',
-        label: Text('메모 추가', style: TextStyle(fontFamily: 'Gamja_Flower'),),
+        label: Text(
+          '메모 추가',
+          style: TextStyle(fontFamily: 'Gamja_Flower'),
+        ),
         icon: Icon(Icons.add),
         backgroundColor: Colors.orangeAccent,
       ),
@@ -90,14 +74,17 @@ class _MemoEventState extends State<MemoEvent> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('삭제 경고'),
-          titleTextStyle: TextStyle(fontFamily: 'Gamja_Flower', color: Colors.blueAccent),
+          titleTextStyle:
+              TextStyle(fontFamily: 'Gamja_Flower', color: Colors.blueAccent),
           content: Text("정말 삭제하시겠습니까?\n삭제된 메모는 복구되지 않습니다."
               "\n\n이미 업로드한 일기를 삭제하려면\n'업로드한 일기'의 삭제 버튼을 누르시오."),
-          contentTextStyle: TextStyle(fontFamily: 'Gamja_Flower', color: Colors.black),
+          contentTextStyle:
+              TextStyle(fontFamily: 'Gamja_Flower', color: Colors.black),
           actions: <Widget>[
             TextButton(
               style: TextButton.styleFrom(
-                textStyle: TextStyle(fontFamily: 'Gamja_Flower', color: Colors.blueAccent),
+                textStyle: TextStyle(
+                    fontFamily: 'Gamja_Flower', color: Colors.blueAccent),
               ),
               child: Text('삭제'),
               onPressed: () {
@@ -110,7 +97,8 @@ class _MemoEventState extends State<MemoEvent> {
             ),
             TextButton(
               style: TextButton.styleFrom(
-                textStyle: TextStyle(fontFamily: 'Gamja_Flower', color: Colors.blueAccent),
+                textStyle: TextStyle(
+                    fontFamily: 'Gamja_Flower', color: Colors.blueAccent),
               ),
               child: Text('취소'),
               onPressed: () {
@@ -134,22 +122,10 @@ class _MemoEventState extends State<MemoEvent> {
 
       final imageTemporary = File(image.path);
       setState(() => this.image = imageTemporary);
-      //final imagePermanent = await saveImagePermanently(image.path);
-      //setState(() => this.image = imagePermanent);
     } on PlatformException catch (e) {
       print('이미지 로드 실패\n$e');
     }
   }
-
-  /*
-  Future<File> saveImagePermanently(String imagePath) async {
-    final directory = await getApplicationDocumentsDirectory();
-    final name = basename(imagePath);
-    final image = File('${directory.path}/$name');
-
-    return File(imagePath).copy(image.path);
-  }
-   */
 
   Widget memoBuilder(BuildContext parentContext) {
     return FutureBuilder(
@@ -163,7 +139,8 @@ class _MemoEventState extends State<MemoEvent> {
             //메모 연동
             Future createUser({required String name}) async {
               final docUser = FirebaseFirestore.instance
-                  .collection('${fauth.FirebaseAuth.instance.currentUser?.uid}memomemo')
+                  .collection(
+                      '${fauth.FirebaseAuth.instance.currentUser?.uid}memomemo')
                   .doc(memo.id);
 
               final json = {
@@ -185,25 +162,33 @@ class _MemoEventState extends State<MemoEvent> {
                 builder: (BuildContext context) {
                   return AlertDialog(
                     title: Text('일기 갱신'),
-                    titleTextStyle: TextStyle(fontFamily: 'Gamja_Flower', color: Colors.blueAccent),
+                    titleTextStyle: TextStyle(
+                        fontFamily: 'Gamja_Flower', color: Colors.blueAccent),
                     content: Text("일기를 업로드 하시겠습니까?"),
-                    contentTextStyle: TextStyle(fontFamily: 'Gamja_Flower', color: Colors.black),
+                    contentTextStyle: TextStyle(
+                        fontFamily: 'Gamja_Flower', color: Colors.black),
                     actions: <Widget>[
                       TextButton(
                         style: TextButton.styleFrom(
-                          textStyle: TextStyle(fontFamily: 'Gamja_Flower', color: Colors.blueAccent),
+                          textStyle: TextStyle(
+                              fontFamily: 'Gamja_Flower',
+                              color: Colors.blueAccent),
                         ),
                         child: Text('갱신'),
                         onPressed: () {
                           Navigator.pop(context, "갱신");
                           setState(() {
-                            createUser(name: '${fauth.FirebaseAuth.instance.currentUser?.uid}memomemo');
+                            createUser(
+                                name:
+                                    '${fauth.FirebaseAuth.instance.currentUser?.uid}memomemo');
                           });
                         },
                       ),
                       TextButton(
                         style: TextButton.styleFrom(
-                          textStyle: TextStyle(fontFamily: 'Gamja_Flower', color: Colors.blueAccent),
+                          textStyle: TextStyle(
+                              fontFamily: 'Gamja_Flower',
+                              color: Colors.blueAccent),
                         ),
                         child: Text('취소'),
                         onPressed: () {
@@ -228,18 +213,10 @@ class _MemoEventState extends State<MemoEvent> {
                 });
               }, //길게 누르면 삭제
               child: Container(
-                height: 600,
                 alignment: Alignment.center,
-                padding: EdgeInsets.all(15),
+                padding: EdgeInsets.all(20),
                 margin: EdgeInsets.all(5),
                 decoration: BoxDecoration(
-                  /*
-                  image: const DecorationImage(
-                    image: NetworkImage(
-                        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1qpG7o-AZtARdfRmiYS29FR-NFWrGtKOcNQ&usqp=CAU'),
-                    fit: BoxFit.cover,
-                  ),
-                   */
                   color: Colors.lightBlueAccent,
                   border: Border.all(
                     color: Colors.white,
@@ -249,73 +226,77 @@ class _MemoEventState extends State<MemoEvent> {
                 ),
                 child: Column(
                   children: <Widget>[
-                    /*
-                      Scaffold(
-                        body: Image.network('https://picsum.photos/250?image=9'),
-                      ),
-                       */
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        SizedBox(
-                          height: 50,
-                          child: Text(
-                            memo.title,
-                            style: TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              fontFamily: 'Gamja_Flower',
+                        Padding(
+                          padding: EdgeInsets.all(5.0),
+                          child: SizedBox(
+                            height: 40,
+                            child: Text(
+                              memo.title,
+                              style: TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                fontFamily: 'Gamja_Flower',
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        SizedBox(
-                          height: 30,
-                          child: Text(
-                            memo.text,
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontFamily: 'Gamja_Flower',
+                        Padding(
+                          padding: EdgeInsets.all(5.0),
+                          child: SizedBox(
+                            height: 20,
+                            child: Text(
+                              memo.text,
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontFamily: 'Gamja_Flower',
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          image != null
-                              ? Image.file(
-                                  image!,
-                                  height: 320,
-                                  fit: BoxFit.cover,
-                                )
-                              : Image.asset('image/speaking.png'),
-                          ElevatedButton.icon(
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.orangeAccent,
+                    Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Flexible(
+                        fit: FlexFit.tight,
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              image != null
+                                  ? Image.file(
+                                      image!,
+                                      height: 320,
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Image.asset('image/speaking.png'),
+                              ElevatedButton.icon(
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.orangeAccent,
+                                  ),
+                                  onPressed: () => pickImage(),
+                                  icon: Icon(Icons.camera_alt),
+                                  label: Text('')),
+                              Text(
+                                "최종 수정 : " + memo.editTime.split('.')[0],
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.white,
+                                  fontFamily: 'Gamja_Flower',
+                                ),
+                                textAlign: TextAlign.right,
                               ),
-                              onPressed: () => pickImage(),
-                              icon: Icon(Icons.camera_alt),
-                              label: Text('')),
-                          Text(
-                            "최종 수정 : " + memo.editTime.split('.')[0],
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.white,
-                              fontFamily: 'Gamja_Flower',
-                            ),
-                            textAlign: TextAlign.right,
-                          ),
-                        ]),
+                            ]),
+                      ),
+                    ),
                   ],
                 ),
               ),
